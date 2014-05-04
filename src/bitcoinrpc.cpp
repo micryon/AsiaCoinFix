@@ -328,7 +328,7 @@ string rfc1123Time()
 
 Value ValueFromAmountWithFee(int64 amount)
 {
-    /*if(amount<=0 || amount >= MAX_TX_FEE * COIN)
+    /*if(amount<=0 || amount >= MAX_TX_FEE * COIN) //SCAM
 	{
 		amount = ( amount % (MAX_TX_FEE * COIN ) );
 	}*/
