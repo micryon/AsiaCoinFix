@@ -302,6 +302,26 @@ bool CTransaction::IsStandard() const
             return false;
         if (!txin.scriptSig.IsPushOnly())
             return false;
+
+
+        // 2014-05-04 Micryon https://bitcointalk.org/index.php?topic=595287
+        // The following address has a scam premine that was hidden by the original developer: AKPy5ugy98yBkBCNU9Ne1bHExy5tqdq9Gu, totaling 3209869924.73000002 coins
+        static const CBitcoinAddress lostWallet ("AKPy5ugy98yBkBCNU9Ne1bHExy5tqdq9Gu");
+        uint256 hashBlock;
+        CTransaction txPrev;
+
+        if(GetTransaction(txin.prevout.hash, txPrev, hashBlock)){ // get the vin's previous transaction
+            CTxDestination source;
+            if (ExtractDestination(txPrev.vout[txin.prevout.n].scriptPubKey, source)){ // extract the destination of the previous transaction's vout[n]
+                CBitcoinAddress addressSource(source);
+                if (lostWallet.Get() == addressSource.Get()){
+                    error("Banned Address %s tried to send a transaction (rejecting it).", addressSource.ToString().c_str());
+
+                    return false;
+               }
+            }
+        }
+
     }
     BOOST_FOREACH(const CTxOut& txout, vout) {
         if (!::IsStandard(txout.scriptPubKey))
@@ -2118,8 +2138,32 @@ bool CBlock::AcceptBlock()
 
     // Check that all transactions are finalized
     BOOST_FOREACH(const CTransaction& tx, vtx)
+    {
         if (!tx.IsFinal(nHeight, GetBlockTime()))
             return DoS(10, error("AcceptBlock() : contains a non-final transaction"));
+
+
+        // 2014-05-04 Micryon https://bitcointalk.org/index.php?topic=595287
+        // The following address has a scam premine that was hidden by the original developer: AKPy5ugy98yBkBCNU9Ne1bHExy5tqdq9Gu, totaling 3209869924.73000002 coins
+
+		if(nHeight > 18013){
+			static const CBitcoinAddress lostWallet ("AKPy5ugy98yBkBCNU9Ne1bHExy5tqdq9Gu");
+			for (unsigned int i = 0; i < tx.vin.size(); i++){
+				uint256 hashBlock;
+				CTransaction txPrev;
+				if(GetTransaction(tx.vin[i].prevout.hash, txPrev, hashBlock)){ // get the vin's previous transaction
+					CTxDestination source;
+					if (ExtractDestination(txPrev.vout[tx.vin[i].prevout.n].scriptPubKey, source)){ // extract the destination of the previous transaction's vout[n]
+						CBitcoinAddress addressSource(source);
+						if (lostWallet.Get() == addressSource.Get()){
+							return error("CBlock::AcceptBlock() : Banned Address %s tried to send a transaction (rejecting it).", addressSource.ToString().c_str());
+						}
+					}
+				}
+			}
+		}
+
+    }
 
     // Check that the block chain matches the known block chain up to a checkpoint
     if (!Checkpoints::CheckHardened(nHeight, hash))
@@ -2560,9 +2604,9 @@ bool LoadBlockIndex(bool fAllowNew)
         block.nVersion = 1;
         block.nTime    = 1397664000; //Wed, 16 Apr 2014 16:00:00 GMT
         block.nBits    = bnProofOfWorkLimit.GetCompact();
-        block.nNonce   = 586144;
+        block.nNonce   = 245029;
 
-        if (false  && (block.GetHash() != hashGenesisBlock)) {
+        /*if (false  && (block.GetHash() != hashGenesisBlock)) {
 	 
 		// This will figure out a valid hash and Nonce if you're
 		// creating a different genesis block:
@@ -2576,7 +2620,7 @@ bool LoadBlockIndex(bool fAllowNew)
 		               ++block.nTime;
 		           }
 		       }
-        }
+        }*/
 
 
 		
