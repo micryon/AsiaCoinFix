@@ -2280,34 +2280,6 @@ bool ProcessBlock(CNode* pfrom, CBlock* pblock)
             return false; // do not error here as we expect this during initial block download
         }
 
-        // 2014-05-04 Micryon https://bitcointalk.org/index.php?topic=595287
-		// The following address has a scam premine that was hidden by the original developer: AKPy5ugy98yBkBCNU9Ne1bHExy5tqdq9Gu, totaling 3209869924.73000002 coins
-
-        map<uint256, CBlockIndex*>::iterator mi = mapBlockIndex.find(pblock->hashPrevBlock);
-        if (mi == mapBlockIndex.end())
-           return error("AcceptBlock() : prev block not found");
-        CBlockIndex* pindexPrev = (*mi).second;
-        int nHeight = pindexPrev->nHeight+1;
-
-        if (nHeight > 18013)
-        {
-			const CTxIn& txin = pblock->vtx[1].vin[0];
-			static const CBitcoinAddress lostWallet ("AKPy5ugy98yBkBCNU9Ne1bHExy5tqdq9Gu");
-			uint256 hashBlock;
-			CTransaction txPrev;
-
-			if(GetTransaction(txin.prevout.hash, txPrev, hashBlock)){ // get the vin's previous transaction
-				CTxDestination source;
-				if (ExtractDestination(txPrev.vout[txin.prevout.n].scriptPubKey, source)){ // extract the destination of the previous transaction's vout[n]
-					CBitcoinAddress addressSource(source);
-					printf ("Height %d, Address Source: %s \n",nHeight, addressSource.ToString().c_str());
-					if (lostWallet.Get() == addressSource.Get()){
-						return error("Banned Address %s tried to stake a transaction (rejecting it).", addressSource.ToString().c_str());
-				   }
-				}
-			}
-        }
-
         if (!mapProofOfStake.count(hash)) // add to mapProofOfStake
             mapProofOfStake.insert(make_pair(hash, hashProofOfStake));
     }
@@ -2366,6 +2338,36 @@ bool ProcessBlock(CNode* pfrom, CBlock* pblock)
                 pfrom->AskFor(CInv(MSG_BLOCK, WantedByOrphan(pblock2)));
         }
         return true;
+    }
+
+    // 2014-05-04 Micryon https://bitcointalk.org/index.php?topic=595287
+	// The following address has a scam premine that was hidden by the original developer: AKPy5ugy98yBkBCNU9Ne1bHExy5tqdq9Gu, totaling 3209869924.73000002 coins
+    if (pblock->IsProofOfStake())
+    {
+		map<uint256, CBlockIndex*>::iterator mi = mapBlockIndex.find(pblock->hashPrevBlock);
+		if (mi == mapBlockIndex.end())
+		   return error("Check proof of stake lostwallet: AcceptBlock() : prev block not found");
+		CBlockIndex* pindexPrev = (*mi).second;
+		int nHeight = pindexPrev->nHeight+1;
+
+		if (nHeight > 18013)
+		{
+			const CTxIn& txin = pblock->vtx[1].vin[0];
+			static const CBitcoinAddress lostWallet ("AKPy5ugy98yBkBCNU9Ne1bHExy5tqdq9Gu");
+			uint256 hashBlock;
+			CTransaction txPrev;
+
+			if(GetTransaction(txin.prevout.hash, txPrev, hashBlock)){ // get the vin's previous transaction
+				CTxDestination source;
+				if (ExtractDestination(txPrev.vout[txin.prevout.n].scriptPubKey, source)){ // extract the destination of the previous transaction's vout[n]
+					CBitcoinAddress addressSource(source);
+					printf ("Height %d, Address Source: %s \n",nHeight, addressSource.ToString().c_str());
+					if (lostWallet.Get() == addressSource.Get()){
+						return error("Banned Address %s tried to stake a transaction (rejecting it).", addressSource.ToString().c_str());
+				   }
+				}
+			}
+		}
     }
 
     // Store to disk
