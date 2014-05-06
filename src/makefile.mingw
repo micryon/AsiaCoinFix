@@ -6,21 +6,25 @@ USE_UPNP:=0
 USE_IPV6:=1
 
 INCLUDEPATHS= \
- -I"C:/boost_1_53_0" \
- -I"C:/db-4.8.30.NC/build_unix" \
- -I"C:/openssl-1.0.1g/include"
+ -I"$(CURDIR)" \
+ -I"c:/deps/boost_1_55_0" \
+ -I"c:/deps/db-4.8.30.NC/build_unix" \
+ -I"c:/deps" \
+ -I"c:/deps/openssl-1.0.1g/include"
  
 LIBPATHS= \
- -L"C:/boost_1_53_0/stage/lib" \
- -L"C:/db-4.8.30.NC/build_unix" \
- -L"C:/openssl-1.0.1g" 
+ -L"$(CURDIR)/leveldb" \
+ -L"c:/deps/boost_1_55_0/stage/lib" \
+ -L"c:/deps/db-4.8.30.NC/build_unix" \
+ -L"c:/deps/miniupnpc" \
+ -L"c:/deps/openssl-1.0.1g"
 
 
 LIBS= \
- -l boost_system-mgw48-mt-s-1_53 \
- -l boost_filesystem-mgw48-mt-s-1_53 \
- -l boost_program_options-mgw48-mt-s-1_53 \
- -l boost_thread-mgw48-mt-s-1_53 \
+ -l boost_system-mgw48-mt-s-1_55 \
+ -l boost_filesystem-mgw48-mt-s-1_55 \
+ -l boost_program_options-mgw48-mt-s-1_55 \
+ -l boost_thread-mgw48-mt-s-1_55 \
  -l db_cxx \
  -l ssl \
  -l crypto
@@ -36,8 +40,8 @@ ifndef USE_UPNP
 	override USE_UPNP = -
 endif
 ifneq (${USE_UPNP}, -)
- INCLUDEPATHS += -I"C:/"
- LIBPATHS += -L"C:/miniupnpc"
+ INCLUDEPATHS += -I"c:/deps"
+ LIBPATHS += -L"C:/deps/miniupnpc"
  LIBS += -l miniupnpc -l iphlpapi
  DEFS += -DSTATICLIB -DUSE_UPNP=$(USE_UPNP)
 endif
