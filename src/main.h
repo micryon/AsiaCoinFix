@@ -32,10 +32,10 @@ static const unsigned int MAX_ORPHAN_TRANSACTIONS = MAX_BLOCK_SIZE/100;
 static const unsigned int MAX_INV_SZ = 50000;
 static const int64 MIN_TX_FEE = 0.1 * CENT;
 static const int64 MIN_RELAY_TX_FEE = 0.1 * CENT;
-static const int64 MAX_MONEY = 7200000000 * COIN;			// 7.2 billion coins for 2% interest stake for several hundred years (hopefully)
+static const int64 MAX_MONEY = 7200000000 * COIN;			// Micryon 7.2 billion coins for 2% interest stake for several hundred years (hopefully).. also this allows us to revert some bad code used to hide the premine
 static const int64 MAX_MINT_PROOF_OF_STAKE = 0.10 * COIN;	// 10% annual interest
-static const int64 MIN_SUPPLY = 1; //SCAM - removed
-static const int64 MIN_STAGE_AMOUNT = 10; //SCAM - removed
+//static const int64 MIN_SUPPLY = 1; //Micryon SCAM-revert
+//static const int64 MIN_STAGE_AMOUNT = 10; // Micryon SCAM-revert
 
 static const int64 MIN_TXOUT_AMOUNT = MIN_TX_FEE;
 
@@ -82,7 +82,7 @@ extern unsigned char pchMessageStart[4];
 extern std::map<uint256, CBlock*> mapOrphanBlocks;
 
 static const int64 MAX_TX_FEE = MAX_MONEY / COIN;
-inline bool MoneyRange(int64 nValue) { return (nValue >= 0 && nValue <= MAX_MONEY * MIN_STAGE_AMOUNT); }
+inline bool MoneyRange(int64 nValue) { return (nValue >= 0 && nValue <= MAX_MONEY); }
 // Settings
 extern int64 nTransactionFee;
 

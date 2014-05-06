@@ -97,7 +97,7 @@ void RPCTypeCheck(const Object& o,
 int64 AmountFromValue(const Value& value)
 {
     double dAmount = value.get_real();
-    if (dAmount <= 0.0 || dAmount > MAX_MONEY * MIN_STAGE_AMOUNT)
+    if (dAmount <= 0.0 || dAmount > MAX_MONEY) //Micryon Scam-revert
         throw JSONRPCError(RPC_TYPE_ERROR, "Invalid amount");
     int64 nAmount = roundint64(dAmount * COIN);
     if (!MoneyRange(nAmount))
@@ -326,12 +326,20 @@ string rfc1123Time()
     return string(buffer);
 }
 
+
+// Micryon: this is an adjustment to go along with the amount banned from the premine wallet
+// See: https://bitcointalk.org/index.php?topic=595999.0
+Value ValueFromAmountWithFeeMoneySupply(int64 amount)
+{
+    if(amount >= 3209869924 * COIN)
+	{
+		amount -= 3209869924*COIN;
+	}
+	return (double)amount / (double)COIN;
+}
+
 Value ValueFromAmountWithFee(int64 amount)
 {
-    /*if(amount<=0 || amount >= MAX_TX_FEE * COIN) //SCAM
-	{
-		amount = ( amount % (MAX_TX_FEE * COIN ) );
-	}*/
 	return (double)amount / (double)COIN;
 }
 

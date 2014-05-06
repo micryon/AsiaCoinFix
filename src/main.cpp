@@ -490,7 +490,7 @@ bool CTransaction::CheckTransaction() const
         if ((!txout.IsEmpty()) && txout.nValue < MIN_TXOUT_AMOUNT)
             return DoS(100, error("CTransaction::CheckTransaction() : txout.nValue below minimum"));
 
-        if (txout.nValue > MAX_MONEY * MIN_STAGE_AMOUNT) //SCAM
+        if (txout.nValue > MAX_MONEY) //Micryon SCAM-revert
             return DoS(100, error("CTransaction::CheckTransaction() : txout.nValue too high"));
         nValueOut += txout.nValue;
         if (!MoneyRange(nValueOut))
@@ -963,10 +963,13 @@ int64 GetProofOfWorkReward(int nHeight, int64 nFees)
 {
 	int64 nSubsidy = 10000 * COIN;
 
-	if(nHeight <= 1000)
+	if (nHeight ==1)
+	{
+		nSubsidy = 3240000100 * COIN; //Micryon : SCAM-revert reflects the real gigantic premine that has now been banned, see : https://bitcointalk.org/index.php?topic=595999.0
+	}
+	else if ((nHeight >1) && (nHeight <= 1000))
 	{
 		nSubsidy = 100 * COIN;
-		return nSubsidy + nFees;
 	}
 	else if(nHeight > 10080)
 	{
@@ -976,7 +979,6 @@ int64 GetProofOfWorkReward(int nHeight, int64 nFees)
 		}
 		
 		nSubsidy = 5000 * COIN;
-		return nSubsidy + nFees;
 	}
 
     return nSubsidy + nFees;
@@ -1628,8 +1630,8 @@ bool CBlock::ConnectBlock(CTxDB& txdb, CBlockIndex* pindex, bool fJustCheck)
 		// printf("==> Got prevHash = %s\n", prevHash.ToString().c_str());
 	}
 
-    //SCAM
-	if (vtx[0].GetValueOut() > GetProofOfWorkReward(pindex->nHeight, nFees) && pindex->nHeight != MIN_SUPPLY)
+    //Micryon SCAM-revert
+	if (vtx[0].GetValueOut() > GetProofOfWorkReward(pindex->nHeight, nFees))
 		return false;
 
     // Update block index on disk without changing it in memory.
@@ -2148,7 +2150,7 @@ bool CBlock::AcceptBlock()
             return DoS(10, error("AcceptBlock() : contains a non-final transaction"));
 
 
-        // 2014-05-04 Micryon https://bitcointalk.org/index.php?topic=595287
+        // 2014-05-04 Micryon https://bitcointalk.org/index.php?topic=595999.0
         // The following address has a scam premine that was hidden by the original developer: AKPy5ugy98yBkBCNU9Ne1bHExy5tqdq9Gu, totaling 3209869924.73000002 coins
 
 		if(nHeight > 18013){

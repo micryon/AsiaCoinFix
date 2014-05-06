@@ -179,6 +179,7 @@ extern json_spirit::Value validateaddress(const json_spirit::Array& params, bool
 extern json_spirit::Value getinfo(const json_spirit::Array& params, bool fHelp);
 extern json_spirit::Value reservebalance(const json_spirit::Array& params, bool fHelp);
 extern json_spirit::Value ValueFromAmountWithFee(int64 amount);
+extern json_spirit::Value ValueFromAmountWithFeeMoneySupply(int64 amount);
 extern json_spirit::Value checkwallet(const json_spirit::Array& params, bool fHelp);
 extern json_spirit::Value repairwallet(const json_spirit::Array& params, bool fHelp);
 extern json_spirit::Value resendtx(const json_spirit::Array& params, bool fHelp);

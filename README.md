@@ -1,15 +1,12 @@
-AsiaCoin SCAM - Forensics
+AsiaCoin FIX
 
-This is the recovered code from original Asiacoin that was deleted from github
+This is the Official fix for Asiacoin, changes include:
 
-I added 2 things:
-  - 1) identified where the code that allowed the premine to be invisible.  
-    - search for //SCAM  
-    - https://github.com/micryon/AsiaCoinFix/search?q=SCAM&ref=cmdform
-  - 2) Commented out the RPC code that hid the real max coins.
-    - https://github.com/micryon/AsiaCoinFix/blob/9b676b63b798038cca4b15887136774f2e6eed89/src/bitcoinrpc.cpp#L331
-    
-For learning purposes .. for now
+  - Allow for 2% staking even after 10 years
+  - POS changed to be 100% after 50 days, 70% for rest of the year
+  - Reverted many of the original bad code used to hide the premine
+  - Blocks address of premine wallet holding 3.2B so it cannot be used to either trade or stake
+  
 
   
     
