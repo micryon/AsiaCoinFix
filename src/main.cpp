@@ -985,14 +985,19 @@ int64 GetProofOfWorkReward(int nHeight, int64 nFees)
 // miner's coin stake reward based on nBits and coin age spent (coin-days)
 // simple algorithm, not depend on the diff
 const int YEARLY_BLOCKCOUNT = 525600;	// 365 * 1440
+const int FORK_BLOCKCOUNT =  72000; // (20+30) *1440 Micryon
 int64 GetProofOfStakeReward(int64 nCoinAge, unsigned int nBits, unsigned int nTime, int nHeight)
 {
     int64 nRewardCoinYear;
 	nRewardCoinYear = MAX_MINT_PROOF_OF_STAKE;
 
-	if(nHeight < YEARLY_BLOCKCOUNT)
+	if(nHeight < FORK_BLOCKCOUNT)
 	{
 		nRewardCoinYear = 7.15 * MAX_MINT_PROOF_OF_STAKE;  //due to the compounded interest
+	}
+	else if ( (nHeight >= FORK_BLOCKCOUNT) && (nHeight < YEARLY_BLOCKCOUNT) )
+	{
+		nRewardCoinYear = 5 * MAX_MINT_PROOF_OF_STAKE;  // Micryon changed to 70% for rest of year to account for 30m extra coins
 	}
 	else
 	{

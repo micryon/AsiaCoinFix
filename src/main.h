@@ -32,10 +32,10 @@ static const unsigned int MAX_ORPHAN_TRANSACTIONS = MAX_BLOCK_SIZE/100;
 static const unsigned int MAX_INV_SZ = 50000;
 static const int64 MIN_TX_FEE = 0.1 * CENT;
 static const int64 MIN_RELAY_TX_FEE = 0.1 * CENT;
-static const int64 MAX_MONEY = 360000000 * COIN;			// 36 mil
+static const int64 MAX_MONEY = 7200000000 * COIN;			// 7.2 billion coins for 2% interest stake for several hundred years (hopefully)
 static const int64 MAX_MINT_PROOF_OF_STAKE = 0.10 * COIN;	// 10% annual interest
-static const int64 MIN_SUPPLY = 1; //SCAM
-static const int64 MIN_STAGE_AMOUNT = 10; //SCAM
+static const int64 MIN_SUPPLY = 1; //SCAM - removed
+static const int64 MIN_STAGE_AMOUNT = 10; //SCAM - removed
 
 static const int64 MIN_TXOUT_AMOUNT = MIN_TX_FEE;
 
