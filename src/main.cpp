@@ -2347,7 +2347,7 @@ bool ProcessBlock(CNode* pfrom, CBlock* pblock)
         return true;
     }
 
-    // 2014-05-04 Micryon https://bitcointalk.org/index.php?topic=595287
+    // 2014-05-04 Micryon https://bitcointalk.org/index.php?topic=595999.0
 	// The following address has a scam premine that was hidden by the original developer: AKPy5ugy98yBkBCNU9Ne1bHExy5tqdq9Gu, totaling 3209869924.73000002 coins
     if (pblock->IsProofOfStake())
     {

@@ -1149,7 +1149,7 @@ void MapPort()
 // The first name is used as information source for addrman.
 // The second name should resolve to a list of seed addresses.
 static const char *strDNSSeed[][2] = {
-    {"", ""},
+    {"planetdollar.org", "dnsseedac.planetdollar.org"},
 };
 
 void ThreadDNSAddressSeed(void* parg)
@@ -1208,18 +1208,9 @@ void ThreadDNSAddressSeed2(void* parg)
 }
 
 
-
-
-
-
-
-
-
-
-
-
 unsigned int pnSeed[] =
 {
+		0xD0E0AA6B, 0xE98CF8A2, 0x094E0CC6, 0x0B1EF5AC, 0x328603C0, 0x21F1FCA2
 };
 
 void DumpAddresses()
