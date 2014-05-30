@@ -7,13 +7,13 @@ CONFIG += no_include_pwd
 CONFIG += thread
 CONFIG += static
 
-# UNCOMMENT THIS SECTION TO BUILD ON WINDOWS
 # Change paths if needed, these use the foocoin/deps.git repository locations
 
 # Dependency library locations can be customized with:
 #    BOOST_INCLUDE_PATH, BOOST_LIB_PATH, BDB_INCLUDE_PATH,
 #    BDB_LIB_PATH, OPENSSL_INCLUDE_PATH and OPENSSL_LIB_PATH respectively
 
+win32 {
 BOOST_LIB_SUFFIX=-mgw48-mt-s-1_55
 BOOST_INCLUDE_PATH=C:/deps/boost_1_55_0
 BOOST_LIB_PATH=C:/deps/boost_1_55_0/stage/lib
@@ -23,6 +23,7 @@ OPENSSL_INCLUDE_PATH=C:/deps/openssl-1.0.1g/include
 OPENSSL_LIB_PATH=C:/deps/openssl-1.0.1g
 MINIUPNPC_INCLUDE_PATH=C:/deps/
 MINIUPNPC_LIB_PATH=C:/deps/miniupnpc
+}
 
 OBJECTS_DIR = build
 MOC_DIR = build
