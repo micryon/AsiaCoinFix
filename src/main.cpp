@@ -992,44 +992,44 @@ const int MONTHLY_BLOCKCOUNT = 43200; // 30*1440 Micryon new schedule
 
 int64 GetProofOfStakeReward(int64 nCoinAge, unsigned int nBits, unsigned int nTime, int nHeight)
 {
-    int64 nRewardCoinYear;
+	int64 nRewardCoinYear;
 	nRewardCoinYear = MAX_MINT_PROOF_OF_STAKE;
 
 	if(nHeight < FORK_BLOCKCOUNT)
 		nRewardCoinYear = 7.15 * MAX_MINT_PROOF_OF_STAKE;  //original ~100%
-	else if ( (nHeight >= FORK_BLOCKCOUNT) && (nHeight < MONTHLY_BLOCKCOUNT*4) )
+	else if (nHeight < MONTHLY_BLOCKCOUNT*4)
 		nRewardCoinYear = 5.72 * MAX_MINT_PROOF_OF_STAKE;  //original ~80%
-    else if ( (nHeight >= MONTHLY_BLOCKCOUNT*4) && (nHeight < MONTHLY_BLOCKCOUNT*6) )
-    	nRewardCoinYear = 4.29 * MAX_MINT_PROOF_OF_STAKE;
-    else if ( (nHeight >= MONTHLY_BLOCKCOUNT*6) && (nHeight < MONTHLY_BLOCKCOUNT*8) )
-    	nRewardCoinYear = 2.86 * MAX_MINT_PROOF_OF_STAKE;
-    else if ( (nHeight >= MONTHLY_BLOCKCOUNT*8) && (nHeight < MONTHLY_BLOCKCOUNT*10) )
-    	nRewardCoinYear = 2.15 * MAX_MINT_PROOF_OF_STAKE;
-    else if ( (nHeight >= MONTHLY_BLOCKCOUNT*10) && (nHeight < MONTHLY_BLOCKCOUNT*12) )
-    	nRewardCoinYear = 1.43 * MAX_MINT_PROOF_OF_STAKE;
-    else if ( (nHeight >= MONTHLY_BLOCKCOUNT*12) && (nHeight < MONTHLY_BLOCKCOUNT*14) )
-    	nRewardCoinYear = 1.07 * MAX_MINT_PROOF_OF_STAKE;
-    else if ( (nHeight >= MONTHLY_BLOCKCOUNT*14) && (nHeight < MONTHLY_BLOCKCOUNT*16) )
-    	nRewardCoinYear = 0.72 * MAX_MINT_PROOF_OF_STAKE;
-    else if ( (nHeight >= MONTHLY_BLOCKCOUNT*16) && (nHeight < MONTHLY_BLOCKCOUNT*18) )
-    	nRewardCoinYear = 0.57 * MAX_MINT_PROOF_OF_STAKE;
-    else if ( (nHeight >= MONTHLY_BLOCKCOUNT*18) && (nHeight < MONTHLY_BLOCKCOUNT*20) )
-    	nRewardCoinYear = 0.43 * MAX_MINT_PROOF_OF_STAKE;
-    else if ( (nHeight >= MONTHLY_BLOCKCOUNT*20) && (nHeight < MONTHLY_BLOCKCOUNT*22) )
-    	nRewardCoinYear = 0.29 * MAX_MINT_PROOF_OF_STAKE;
-    else if ( (nHeight >= MONTHLY_BLOCKCOUNT*22) && (nHeight < MONTHLY_BLOCKCOUNT*24) )
-    	nRewardCoinYear = 0.22 * MAX_MINT_PROOF_OF_STAKE;
-    else if ( (nHeight >= MONTHLY_BLOCKCOUNT*24) && (nHeight < MONTHLY_BLOCKCOUNT*48) )
-    	nRewardCoinYear = 0.2 * MAX_MINT_PROOF_OF_STAKE;  //2%
+	else if (nHeight < MONTHLY_BLOCKCOUNT*6)
+    		nRewardCoinYear = 4.29 * MAX_MINT_PROOF_OF_STAKE;
+	else if (nHeight < MONTHLY_BLOCKCOUNT*8)
+    		nRewardCoinYear = 2.86 * MAX_MINT_PROOF_OF_STAKE;
+	else if (nHeight < MONTHLY_BLOCKCOUNT*10)
+    		nRewardCoinYear = 2.15 * MAX_MINT_PROOF_OF_STAKE;
+	else if (nHeight < MONTHLY_BLOCKCOUNT*12)
+    		nRewardCoinYear = 1.43 * MAX_MINT_PROOF_OF_STAKE;
+	else if (nHeight < MONTHLY_BLOCKCOUNT*14)
+    		nRewardCoinYear = 1.07 * MAX_MINT_PROOF_OF_STAKE;
+	else if (nHeight < MONTHLY_BLOCKCOUNT*16)
+    		nRewardCoinYear = 0.72 * MAX_MINT_PROOF_OF_STAKE;
+	else if (nHeight < MONTHLY_BLOCKCOUNT*18)
+    		nRewardCoinYear = 0.57 * MAX_MINT_PROOF_OF_STAKE;
+	else if (nHeight < MONTHLY_BLOCKCOUNT*20)
+    		nRewardCoinYear = 0.43 * MAX_MINT_PROOF_OF_STAKE;
+	else if (nHeight < MONTHLY_BLOCKCOUNT*22)
+    		nRewardCoinYear = 0.29 * MAX_MINT_PROOF_OF_STAKE;
+	else if (nHeight < MONTHLY_BLOCKCOUNT*24)
+    		nRewardCoinYear = 0.22 * MAX_MINT_PROOF_OF_STAKE;
+	else if (nHeight < MONTHLY_BLOCKCOUNT*48)
+    		nRewardCoinYear = 0.2 * MAX_MINT_PROOF_OF_STAKE;  //2%
 	else
 		nRewardCoinYear = 0.1 * MAX_MINT_PROOF_OF_STAKE; //1%
 
 	
-    int64 nSubsidy = nCoinAge * nRewardCoinYear / 365;
+	int64 nSubsidy = nCoinAge * nRewardCoinYear / 365;
 	if (fDebug && GetBoolArg("-printcreation"))
-        printf("GetProofOfStakeReward(): create=%s nCoinAge=%"PRI64d" nBits=%d\n", FormatMoney(nSubsidy).c_str(), nCoinAge, nBits);
+		printf("GetProofOfStakeReward(): create=%s nCoinAge=%"PRI64d" nBits=%d\n", FormatMoney(nSubsidy).c_str(), nCoinAge, nBits);
 
-    return nSubsidy;
+	return nSubsidy;
 }
 
 static const int64 nTargetTimespan = 30 * 60;  
