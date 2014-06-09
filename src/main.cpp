@@ -993,17 +993,16 @@ const int MONTHLY_BLOCKCOUNT = 43200; // 30*1440 Micryon new schedule
 int64 GetProofOfStakeReward(int64 nCoinAge, unsigned int nBits, unsigned int nTime, int nHeight)
 {
     int64 nRewardCoinYear;
-
     if(nHeight < YEARLY_BLOCKCOUNT)
       nRewardCoinYear = 7.15 * MAX_MINT_PROOF_OF_STAKE;  //original ~100%
     else
       nRewardCoinYear = MAX_MINT_PROOF_OF_STAKE / 5;
 	
-    int64 nSubsidy = nCoinAge * nRewardCoinYear / 365;
+	int64 nSubsidy = nCoinAge * nRewardCoinYear / 365;
 	if (fDebug && GetBoolArg("-printcreation"))
-        printf("GetProofOfStakeReward(): create=%s nCoinAge=%"PRI64d" nBits=%d\n", FormatMoney(nSubsidy).c_str(), nCoinAge, nBits);
+		printf("GetProofOfStakeReward(): create=%s nCoinAge=%"PRI64d" nBits=%d\n", FormatMoney(nSubsidy).c_str(), nCoinAge, nBits);
 
-    return nSubsidy;
+	return nSubsidy;
 }
 
 static const int64 nTargetTimespan = 30 * 60;  
