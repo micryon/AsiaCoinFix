@@ -63,7 +63,7 @@
           <cursorShape>IBeamCursor</cursorShape>
          </property>
          <property name="text">
-          <string notr="true">v2.0.0.0</string>
+          <string notr="true">v2.0.1</string>
          </property>
          <property name="textInteractionFlags">
           <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
@@ -94,7 +94,7 @@
         <string>
 Copyright © 2009-2012 Bitcoin Developers
 Copyright © 2012 PPCoin Developers
-Copyright © 2014 AsiaCoinFix Developers
+Copyright © 2014 AsiaCoin Foundation
 </string>
        </property>
        <property name="textInteractionFlags">
