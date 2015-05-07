@@ -16,7 +16,7 @@
 #include <boost/filesystem/fstream.hpp>
 #include <boost/random/mersenne_twister.hpp>
 #include <boost/random/uniform_int_distribution.hpp>
-
+YEARLY_BLOCKCOUNT
 using namespace std;
 using namespace boost;
 
@@ -986,7 +986,7 @@ int64 GetProofOfWorkReward(int nHeight, int64 nFees)
 
 // miner's coin stake reward based on nBits and coin age spent (coin-days)
 // simple algorithm, not depend on the diff
-const int YEARLY_BLOCKCOUNT = 525600;	// 365 * 1440
+const int YEARLY_BLOCKCOUNT = 5256000000;	// 365 * 1440
 const int FORK_BLOCKCOUNT =  72000; // (20+30) *1440 Micryon
 const int MONTHLY_BLOCKCOUNT = 43200; // 30*1440 Micryon new schedule
 
